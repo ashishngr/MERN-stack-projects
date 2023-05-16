@@ -10,7 +10,7 @@ import { useStateContext } from './contexts/ContextProvider';
 import "./App.css";
 
 const App = () => {
-  // const {activeMenu} = useStateContext();
+  // const {activeMenu, } = useStateContext();
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const App = () => {
               <Navbar />
             </div>
             <div>
-              {themeSettings && (<ThemeSettings />)}
+              {themeSettings && <ThemeSettings /> }
 
               <Routes>
                 {/* dashboard  */}
