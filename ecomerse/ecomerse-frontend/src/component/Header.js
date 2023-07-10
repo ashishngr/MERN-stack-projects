@@ -11,6 +11,7 @@ const Header = () => {
     const handleShowMenu = () =>{
         setShowMenu(preve => !preve)
     }
+// adding a comment 
 
   return (
     <header className='fixed shadow-md w-full h-16 px-2 md:px-4 z-50 bg-white'>
