@@ -1,5 +1,5 @@
 
-/node_modules
+node_modules
 /DS_Store
 
 /coverage
@@ -13,4 +13,4 @@
 .env.test.local
 .env.production.local
 
-npm-debug.log*
+npm-debug.log
