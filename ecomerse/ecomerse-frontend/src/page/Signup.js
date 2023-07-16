@@ -3,6 +3,8 @@ import loginSignupImage from '../assest/login-animation.gif';
 import {BiShow, BiHide} from 'react-icons/bi'
 import { Link, useNavigate } from 'react-router-dom';
 import { BsEmojiSmileUpsideDown } from 'react-icons/bs';
+import ImageToBase64 from "../utility/imagetoBase64";
+import { toast } from 'react-hot-toast';
 
 
 const Signup = () => {
@@ -16,6 +18,7 @@ const Signup = () => {
         email: "", 
         password: "", 
         confirmPassword: "",
+        image: "",
     });
     console.log(data);
     
@@ -37,17 +40,41 @@ const Signup = () => {
         })
     };
 
-    const handleUploadProfileImage = (e) => {
+    const handleUploadProfileImage = async(e) => {
         console.log(e.target.files[0]);
+        const data = await ImageToBase64(e.target.files[0]);
+        console.log(data);
+
+        setData((preve)=>{
+            return{
+                ...preve,
+                image: data
+            }
+        })
+
     }
+
+    console.log(process.env.REACT_APP_SERVER_DOMAIN);
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
         const {firstName, email, password, confirmPassword} = data; 
         if (firstName && email && password && confirmPassword) {
             if (password === confirmPassword) {
-              // alert(dataRes.message);
-                navigate("/login");
+                const fetchData = await fetch(`${process.env.REACT_APP_SERVER_DOMAIN}/signup`, {
+                    method: "POST", 
+                    headers: {
+                        "content-type": "application/json"
+                    }, 
+                    body: JSON.stringify(data)
+
+                });
+                const dataRes = await fetchData.json()
+                console.log("--->", dataRes)
+                toast(dataRes.message);
+                if(dataRes.alert){
+                    navigate("/login");
+                }
             }
             else {
               alert("password and confirm password not equal");
@@ -64,15 +91,15 @@ const Signup = () => {
     <div className='p-3 md:p-4'>
         <div className='w-full max-w-sm bg-white m-auto flex flex-col p-4'>
             {/* <h1 className='text-center text-2xl font-bold'>Sign up</h1> */}
-            <div className='w-20 overflow-hidden rounded-full drop-shadow-md shadow-md m-auto relative'>
+            <div className='w-20 h-20 overflow-hidden rounded-full drop-shadow-md shadow-md m-auto relative'>
                 <label />
-                <img src={loginSignupImage} className='w-full'/> 
+                <img src={data.image ? data.image : loginSignupImage} className='w-full h-full'/> 
                 
                 <label htmlFor='profileImage'>
-                    <div className='absolute bottom-0 h-1/3 bg-slate-500 w-full text-center cursor-pointer '>
+                    <div className='absolute bottom-0 h-1/3 bg-slate-500 bg-opacity-50 w-full text-center cursor-pointer '>
                         <p className='text-sm p-1 text-white'>Upoad</p>
                     </div>
-                    <input type={'file'} id='profileImage' accept='image/*' className='hidden' onClick={handleUploadProfileImage}/>
+                    <input type={"file"} id="profileImage" accept="image/*" className="hidden" onChange={handleUploadProfileImage}/>
                 </label>
 
                 

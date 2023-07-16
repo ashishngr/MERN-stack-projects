@@ -3,11 +3,16 @@ import logo from "../assest/logo.png";
 import { Link } from 'react-router-dom';
 import {HiOutlineUserCircle} from "react-icons/hi"; 
 import {BsCartFill} from "react-icons/bs"
+import { useSelector } from 'react-redux';
 
 
 
 const Header = () => {
-    const [showMenu, setShowMenu] = useState(false);
+    const [showMenu, setShowMenu] = useState(false); 
+
+    const userData = useSelector((state)=>state.user); 
+    console.log("header",userData);
+
     const handleShowMenu = () =>{
         setShowMenu(preve => !preve)
     }
@@ -35,8 +40,10 @@ const Header = () => {
                         <div className='absolute -top-2 -right-1 text-white bg-red-500 h-4 rounded-full m-0 p-0 text-sm text-center'>0</div>
                     </div>
                     <div className=' text-slate-600 cursor-pointer' onClick={handleShowMenu}>
-                        <div className='text-2xl' >
-                            <HiOutlineUserCircle />
+                        <div className='text-2xl w-10 h-10 rounded-full overflow-hidden drop-shadow-md'>
+                           { 
+                                userData.image ? <img src={userData.image} className='h-full w-full'/> : <HiOutlineUserCircle />
+                            }
                         </div>
                         {
                             showMenu && (
