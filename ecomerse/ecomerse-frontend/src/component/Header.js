@@ -3,8 +3,9 @@ import logo from "../assest/logo.png";
 import { Link } from 'react-router-dom';
 import {HiOutlineUserCircle} from "react-icons/hi"; 
 import {BsCartFill} from "react-icons/bs"
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutRedux } from '../redux/userSlice';
+import { toast } from 'react-hot-toast';
 
 
 const Header = () => {
@@ -12,9 +13,15 @@ const Header = () => {
 
     const userData = useSelector((state)=>state.user); 
     console.log("header",userData);
+    const dispatch = useDispatch(); 
 
     const handleShowMenu = () =>{
         setShowMenu(preve => !preve)
+    }
+
+    const handleLogout = () =>{
+        dispatch(logoutRedux());
+        toast("Logout successfully"); 
     }
 // adding a comment 
 
@@ -39,17 +46,17 @@ const Header = () => {
                         <BsCartFill/>
                         <div className='absolute -top-2 -right-1 text-white bg-red-500 h-4 rounded-full m-0 p-0 text-sm text-center'>0</div>
                     </div>
-                    <div className=' text-slate-600 cursor-pointer' onClick={handleShowMenu}>
-                        <div className='text-2xl w-10 h-10 rounded-full overflow-hidden drop-shadow-md'>
+                    <div className=' text-slate-600 cursor-pointer flex' onClick={handleShowMenu}>
+                        <div className='text-2xl w-8 h-8 rounded-full overflow-hidden drop-shadow-md'>
                            { 
                                 userData.image ? <img src={userData.image} className='h-full w-full'/> : <HiOutlineUserCircle />
                             }
                         </div>
                         {
                             showMenu && (
-                            <div className='absolute right-2 bg-white py-2 px-2 shadow drop-shadow-md flex flex-col'>
-                                <Link to={"newproduct"} className='whitespace-nowrap cursor-pointer'>New Product</Link>
-                                <Link to={"login"} className='whitespace-nowrap cursor-pointer'>Login</Link>
+                            <div className='absolute right-2 bg-white py-2 shadow drop-shadow-md flex flex-col '>
+                                <Link to={"newproduct"} className='whitespace-nowrap cursor-pointer px-2'>New Product</Link>
+                                {userData.image ? <p className='cursor-pointer text-white bg-red-500 px-2' onClick={handleLogout}>Logout</p> : <Link to={"login"} className='whitespace-nowrap cursor-pointer px-2'>Login</Link>}
                             </div>
                             )
                         }
