@@ -84,5 +84,30 @@ app.post("/login", (req, res)=>{
       res.send({message: "Email id is not available, Please signup", alert: false})
     }
   })
+}); 
+
+
+// Product section 
+
+const schemaProduct = mongoose.Schema({
+  name: String, 
+  category: String, 
+  image: String, 
+  price: String, 
+  description: String
+}); 
+const productModel = mongoose.model("product", schemaProduct); 
+
+
+// upload product in database
+
+app.post("/uploadProduct", async (req, res) => {
+  console.log(req.body);
+  const data = await productModel(req.body);
+  const dataSave = await data.save(); 
+  res.send({message: "upload successfully"}); 
 })
+
+
+
 app.listen(PORT,()=> console.log("Server is running on port:" + PORT))
