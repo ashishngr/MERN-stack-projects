@@ -92,6 +92,12 @@ const NewProduct = () => {
           <option value={"dosa"}>Dosa</option>
           <option value={"pizza"}>Pizza</option>
           <option value={"rice"}>Rice</option>
+          <option value={"ckae"}>Cake</option>
+          <option value={"burger"}>Burger</option>
+          <option value={"panner"}>Panner</option>
+          <option value={"sandwich"}>Sandwich</option>
+
+
 
         </select>
 
