@@ -106,6 +106,11 @@ app.post("/uploadProduct", async (req, res) => {
   const data = await productModel(req.body);
   const dataSave = await data.save(); 
   res.send({message: "upload successfully"}); 
+}) 
+
+app.get("/product", async(req, res) => {
+  const data = await productModel.find({})
+  res.send(data)
 })
 
 
