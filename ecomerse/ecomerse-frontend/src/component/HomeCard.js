@@ -1,18 +1,26 @@
 import React from 'react'
 
-const HomeCard = ({name, image, category, price}) => {
+const HomeCard = ({name, image, category, price, loading}) => {
   return (
-    <div className='bg-white shadow p-2 rounded '>
+    <div className='bg-white shadow p-2 rounded min-w-[150px]'> 
+        
         {
-            name && 
+            name ? (
             <>  
-                <div className='w-40 min-h-[100]'>
+                <div className='w-40 min-h-[150px]'>
                     <img src={image} className="h-full w-full"/>
                 </div>
                 <h3 className='font-semibold text-slate-600 text-center capitalize text-lg'>{name}</h3>
                 <p className='text-center text-slate-500 text-medium'>{category}</p>
                 <p className='text-center font-bold'><span className='text-red-500'>₹</span>{price}</p>
             </>
+            ) 
+            : 
+            <div className='flex justify-center items-center h-full'>
+                <p>Loading</p>
+            </div>
+
+
         }
     </div>
   )

@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import HomeCard from '../component/HomeCard'
 import { useSelector } from 'react-redux'
 import CardFeature from '../component/CardFeature';
+import {GrNext} from 'react-icons/gr'; 
+import {GrPrevious} from 'react-icons/gr'; 
+import FilterProduct from '../component/FilterProduct';
 
-const Home = () => {
+const Home = () => { 
+
+
+
   const productData = useSelector((state)=>state.product.productList); 
   console.log("---",productData); 
 
@@ -14,6 +20,44 @@ const Home = () => {
   console.log("--->",homeProductCartListVegetables) 
 
   const loadingArray = new Array(4).fill(null)
+
+  const loadingArrayFeature = new Array(10).fill(null)
+
+  const slideProductRef = useRef();
+  const nextProduct = () => {
+    console.log("---", slideProductRef.current)
+    slideProductRef.current.scrollLeft += 200;
+  };
+  const preveProduct = () => {
+    console.log("---", slideProductRef.current)
+
+    slideProductRef.current.scrollLeft -= 200;
+  }; 
+
+  const categoryList = [...new Set(productData.map(el=>el.category))]
+  console.log("cat list", categoryList); 
+
+  // Filter data display 
+
+  //filter data display
+  const [filterby, setFilterBy] = useState("");
+  const [dataFilter, setDataFilter] = useState([]);
+
+  useEffect(() => {
+    setDataFilter(productData);
+  }, [productData]);
+
+  const handleFilterProduct = (category) => {
+    setFilterBy(category)
+    const filter = productData.filter(
+      (el) => el.category.toLowerCase() === category.toLowerCase()
+    );
+    setDataFilter(() => {
+      return [...filter];
+    });
+  };
+
+
 
 
   return (
@@ -45,19 +89,29 @@ const Home = () => {
               )
             }) 
             : 
-            loadingArray.map(el => {
+            loadingArray.map((el, index) => {
               return(
-                <HomeCard />
+                <HomeCard 
+                key={index}
+                loading={"Loading..."}
+                />
               )
             })
           }
         </div>
       </div> 
       <div className=''>
-        <h2 className='font-bold text-2xl text-slate-700'>Fresh Vegetables</h2>
-        <div className=''>
+        <div className='flex w-full items-center'>
+            <h2 className='font-bold text-2xl text-slate-800 mb-4'>Fresh Vegetables</h2>
+            <div className='ml-auto flex gap-4'>
+              <button onClick={preveProduct} className='bg-slate-300 hover:bg-slate-400 text-lg p-1 rounded'><GrPrevious /></button>
+              <button onClick={nextProduct} className='bg-slate-300 hover:bg-slate-400 text-lg p-1 rounded'><GrNext /></button>
+            </div>
+        </div>
+
+        <div className='flex gap-5 overflow-scroll scrollbar-none scroll-smooth transition-all ' ref={slideProductRef} >
           {
-            homeProductCartListVegetables[0] && homeProductCartListVegetables.map(el=>{
+            homeProductCartListVegetables[0] ? homeProductCartListVegetables.map(el=>{
               return(
                 <CardFeature 
                 key={el._id}
@@ -68,9 +122,53 @@ const Home = () => {
                 />
               )
             })
+            : 
+
+            loadingArrayFeature.map(el => 
+              <CardFeature loading={"Loading...."}/>
+            )
+            
           }
         </div>
       </div>
+
+      <div className='my-5'>
+        <h2 className='font-bold text-2xl text-slate-800 mb-4'>
+          Your Product
+        </h2>
+        <div className='flex gap-4 justify-center overflow-scroll scrollbar-none'>
+          {
+            categoryList[0] && categoryList.map(el=>{
+              return(
+                <FilterProduct 
+                category={el} 
+                onClick={() => handleFilterProduct(el)
+                }
+                />
+              )
+            })
+          }
+            
+        </div>
+        <div className='flex flex-wrap justify-center gap-4 my-4'>
+            {
+              dataFilter.map(el => {
+                return (
+                  <CardFeature          
+                  key={el._id}
+                  image={el.image}
+                  name={el.name}
+                  category={el.category}
+                  price={el.price}/>
+                )
+              })
+            }
+        </div>
+      
+      </div>
+
+
+
     </div>
   )
 }
