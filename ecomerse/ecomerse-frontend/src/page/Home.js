@@ -5,6 +5,7 @@ import CardFeature from '../component/CardFeature';
 import {GrNext} from 'react-icons/gr'; 
 import {GrPrevious} from 'react-icons/gr'; 
 import FilterProduct from '../component/FilterProduct';
+import AllProduct from '../component/AllProduct';
 
 const Home = () => { 
 
@@ -115,6 +116,7 @@ const Home = () => {
               return(
                 <CardFeature 
                 key={el._id}
+                id={el._id}
                 name={el.name}
                 category={el.category} 
                 price={el.price}
@@ -130,42 +132,14 @@ const Home = () => {
             
           }
         </div>
+        <AllProduct heading={"Your Product"}/>
       </div>
 
-      <div className='my-5'>
-        <h2 className='font-bold text-2xl text-slate-800 mb-4'>
-          Your Product
-        </h2>
-        <div className='flex gap-4 justify-center overflow-scroll scrollbar-none'>
-          {
-            categoryList[0] && categoryList.map(el=>{
-              return(
-                <FilterProduct 
-                category={el} 
-                onClick={() => handleFilterProduct(el)
-                }
-                />
-              )
-            })
-          }
-            
-        </div>
-        <div className='flex flex-wrap justify-center gap-4 my-4'>
-            {
-              dataFilter.map(el => {
-                return (
-                  <CardFeature          
-                  key={el._id}
-                  image={el.image}
-                  name={el.name}
-                  category={el.category}
-                  price={el.price}/>
-                )
-              })
-            }
-        </div>
-      
-      </div>
+
+
+
+
+     
 
 
 

@@ -1,10 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-const CardFeature = ({image, name, category, price, loading}) => {
+const CardFeature = ({image, name, category, price, loading, id}) => {
   return (
     <div className='w-full min-w-[200px] max-w-[200px] bg-white hover:shadow-lg drop-shadow-lg py-5 px-4 cursor-pointer flex flex-col '>
         {
-            image ? <>
+            image ? <> 
+            <Link to={`menu/${id}`}>
+            
                 <div className='h-28 flex flex-col justify-center items-center'>
                     <img src={image} className='h-full'/>
                 </div>
@@ -14,7 +17,8 @@ const CardFeature = ({image, name, category, price, loading}) => {
                     <span className='text-red-500'>₹</span>
                     <span>{price}</span>    
                 </p>
-                <button className='bg-yellow-300 py-1 my-2 rounded'>Add Cart</button>
+                <button className='bg-yellow-300 py-1 my-2 rounded hover:bg-yellow-600 w-full'>Add Cart</button> 
+            </Link>     
             </> 
             : 
             <div className='min-h-[150px] flex justify-center items-center'>
