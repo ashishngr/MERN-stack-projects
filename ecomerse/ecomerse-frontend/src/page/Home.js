@@ -82,6 +82,7 @@ const Home = () => {
               return(
                 <HomeCard 
                 key={el._id}
+                id={el._id}
                 image={el.image}
                 name={el.name}
                 price={el.price}
@@ -126,8 +127,8 @@ const Home = () => {
             })
             : 
 
-            loadingArrayFeature.map(el => 
-              <CardFeature loading={"Loading...."}/>
+            loadingArrayFeature.map((el, index) => 
+              <CardFeature loading={"Loading...."} key={index}/>
             )
             
           }
